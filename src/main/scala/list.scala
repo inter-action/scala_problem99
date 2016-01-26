@@ -1,8 +1,6 @@
-package easy
+package com.github.interaction.s99
 
 import scala.util.control.Breaks._
-
-// http://aperiodic.net/phil/scala/s-99/
 
 object list {
   def add(x: Int, y: Int): Int = x + y
@@ -35,12 +33,12 @@ object list {
   }
 
   /*
-   
+
   def compressRecursive[A](ls: List[A]): List[A] = ls match {
     case Nil       => Nil
     case h :: tail => h :: compressRecursive(tail.dropWhile(_ == h))
   }
-    
+
    */
   def compress(ls: List[Any]): List[Any] = {
     var pre = ls(0)
@@ -57,7 +55,7 @@ object list {
   }
 
   /*
-	
+
   def pack[A](ls: List[A]): List[List[A]] = {
     if (ls.isEmpty) List(List())
     else {
@@ -66,7 +64,7 @@ object list {
       else packed :: pack(next)
     }
   }
-  
+
    */
   def pack(ls: List[Any]): List[Any] = {
     if (ls.isEmpty) List(Nil)
@@ -207,44 +205,65 @@ object list {
 
 }
 
-object arithmetic {
-  implicit def IntMix(number: Int) = new {
-    /*todo: how to use Stream class
-     * object S99Int {
-		  val primes = Stream.cons(2, Stream.from(3, 2) filter { _.isPrime })
-		}
-     */
-    def isPrime: Boolean = {
-      //this is pretty naive implementation
-      //for more efficient test please visit:
-      // http://primes.utm.edu/prove/index.html
-      // [Haskell implementation](http://article.gmane.org/gmane.comp.lang.haskell.cafe/19470)
-      val end: Int = Math.ceil(Math.sqrt(number.toDouble)).toInt
-      val list = List.range(2, end+1)
-      (number > 1) && (list forall { number % _ != 0 })
-    }
-  }
+object TestList {
+  import list._
 
-  def gcd(x: Int, y: Int): Int = {
-    if (y == 0) {
-      x
-    } else {
-      gcd(y, x % y)
-    }
+  def main(args: Array[String]): Unit = {
+    println("Problem Set")
+    //1
+    println("1. last element in list is : " + last(List("a", "b", "c")))
+    //2
+    println("2. last but one element in the list is: " + lastN(List("A", "B", "C"), 1))
+    //3
+    println("3. 2th element in the list is : " + List(1, 1, 2)(2))
+    //4
+    println("4. number of elements in the list is: " + List(1, 2, 3).length)
+    //5
+    println("5. this is the way of reverse a list: " + List(1, 2, 3).reverse)
+    //6
+    println("6. is this array palindrome:" + isPalindrome(List(1, 2, 3, 2, 1)))
+    //7
+    println("7. flatten array should work: " + flatten(List(List(1, 2), 3, 4)))
+    //8
+    def result = compress(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e'));
+    println("8. compress list is: " + result)
+    //9
+    println("9. packed list is " + pack(List(1, 1, 2, 3, 3, 4, 5, 5)));
+    //10
+    println("10. encoded list is: " + encode(List(1, 1, 2, 3, 3, 4, 5, 5)));
+    //11
+    println("11. modified encoded list is: " + encodeModified(List(1, 1, 2, 3, 3, 4, 5, 5)))
+    //12
+    println("12. decoded list result is: " + decode(List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))))
+    //14
+    println("14. duplicated list result is: " + duplicate(List(1, 2, 3, 4)))
+    //15
+    println("15. duplicateN list result is: " + duplicateN(3, List(1, 2, 3, 4)))
+    //16
+    println("16. drop list result is: " + drop(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    //17
+    println("17. split list result is: " + split(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    //18
+    println("18. slice list result is: " + slice(3, 7, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    //19
+    println("19. rotate list result is: " + rotate(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    println("19. rotate list result is: " + rotate(-2, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    //20
+    println("20. remove list at is: " + removeAt(1, List('a', 'b', 'c', 'd')))
+    //21
+    println("21. insert list at is: " + insertAt(1, 'n', List('a', 'b', 'c', 'd')))
+    //22
+    println("22. create a range of list: " + range(1, 10))
+    //23
+    println("23.  Extract a given number of randomly selected elements from a list: " + randomSelect(3, List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')))
+    //25
+    println("24. Generate a random permutation of the elements of a list.: " + randomPermute(List('a', 'b', 'c', 'd', 'e', 'f')))
+    //26
+
+    //27
+
+    //28
+
+
   }
-  
-  implicit def IntCoprimeMixIn(number: Int) = new {
-    //what is number coprime:
-	  // 14 and 15 are coprime, being commonly divisible by only 1, but 14 and 21 are not,
-    // because they are both divisible by 7.
-    def isCoprimeTo(y: Int):Boolean = gcd(number, y) == 1
-  }
-  
-  implicit def TotientMixIn(number: Int) = new {
-    //获得 1..number 与 number 的互质的自然数长度
-    def totient: Int = (1 to number) filter {number.isCoprimeTo(_)} length
-  }
-  
-  
-  
 }
