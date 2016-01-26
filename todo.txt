@@ -18,3 +18,4 @@ Stream 类的使用
 
 http://aperiodic.net/phil/scala/s-99/
 
+[Scala case class prohibits call-by-name parameters?](http://stackoverflow.com/questions/26749571/scala-case-class-prohibits-call-by-name-parameters)
