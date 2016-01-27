@@ -23,6 +23,7 @@ object logic_and_code{
 
   object logic1 {
     //todo: get rid of ugly .b call, (extends Function0 will not get this job done)
+    //todo: b should be `call by name` so the calc can be as lazy as possible
     class BoolWrapper(val b: Boolean){
 
 
@@ -60,11 +61,26 @@ object logic_and_code{
   }
 
 
+  object graycode {
+    def gray(n: Int):Seq[String] = {
+      if (n == 1){
+        Seq("0", "1")
+      }else if (n > 0){
+        for (
+          a <- gray(n-1);
+          b <- Seq("0", "1")
+        ) yield (b+a)
+      }else {
+        Nil
+      }
+    }
+  }
+
+  //todo: Huffman code
+
 }
 
 object TestLogicAndCode{
-  import logic_and_code._
-
 
   def main(args: Array[String]) {
     //logic
@@ -81,6 +97,13 @@ object TestLogicAndCode{
       println("not(true) is", not(true).b)
       println("true and (true or not(false)) is ", (true and (true or not(false))).b)
       println("not(true and false) is: ", (not(true and false)).b)
+    }
+
+    {
+      import logic_and_code.graycode._
+      println("gray(1)", gray(1))
+      println("gray(2)", gray(2))
+      println("gray(3)", gray(3))
     }
   }
 }
