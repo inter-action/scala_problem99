@@ -1,7 +1,5 @@
 package com.github.interaction.s99
 
-import scala.util.control.Breaks._
-
 // http://aperiodic.net/phil/scala/s-99/
 
 
