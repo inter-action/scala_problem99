@@ -293,6 +293,47 @@ object binarytree{
       }
       f(node, 1, cb)
     }
+
+    //todo:  P66 - Layout a binary tree (3)
+
+    //Tree.fromString("a(b(d,e),c(,f(g,)))")
+    def fromString(str: String): Tree[String] = {
+      val pattern = """(\w+)\((.*),(.*)\)""".r
+      def findCommaPos(str: String) = {
+        var depth = 0
+        var col = List[(Int, Int)]()
+        for (i <- 0 until str.length){
+          val c = str(i)
+          if (c == '('){
+            depth += 1
+          }else if (c == ')'){
+            depth -= 1
+          }
+
+          if (c == ','){
+            col = (depth, i) :: col
+          }
+        }
+        val sorted = col.sortBy(_._1)
+        sorted(0)._2
+      }
+
+      def splitNode(str: String): Tree[String] = str match {
+        case pattern(v, l, r) =>
+          val nested = l + "," + r
+          val i = findCommaPos(nested)
+          Node(v, splitNode(nested.substring(0, i)), splitNode(nested.substring(i+1)))
+        case others:String  =>
+          if (others.trim().isEmpty){
+            End
+          }  else {
+            Node(others, End, End)
+          }
+      }
+
+      splitNode(str)
+    }
+
   }
 
 }
@@ -343,6 +384,10 @@ object test_bintary_tree{
     println("PositionedNode toString: ", _node2)
 
 
+    println("P67", Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))).toString)
+
     //todo: skip `Layout a binary tree (3)`
+
+    println("p68: ", Tree.fromString("a(b(d,e),c(,f(g,)))"))
   }
 }
